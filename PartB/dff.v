@@ -1,7 +1,7 @@
 module DFF(d,clk,q);
-input [3:0]d;
+input d;
 input clk;
-output reg [3:0]q;
+output reg q;
 
 initial
   begin
@@ -12,4 +12,20 @@ always@(posedge clk)
   begin
     q<=d;
   end
-endmodule    
+endmodule
+
+
+module DFF4bit(d,clk,q);
+input [3:0]d;
+input clk;
+output reg [3:0]q;
+
+initial
+  begin
+    q<=4'b0000;
+  end
+always@(posedge clk)
+  begin
+    q<=d;
+  end
+endmodule
