@@ -1,14 +1,14 @@
-module monitor(clk, pixel,hcount,vcount,redstable,greenstable,bluestable,hsyncstable,vsyncstable);
+module monitor(clk, pixel,sw0,sw1,sw2,sw3,sw4,sw5,sw6,sw7,redstable,greenstable,bluestable,hsyncstable,vsyncstable);
 input clk;
 input [11:0]pixel;
-
-output reg [9:0]hcount; //800 is 11 0010 0000
-output reg [9:0]vcount; //525 is 10 0000 1101
-output reg [3:0]redstable;
-output reg [3:0]greenstable;
-output reg [3:0]bluestable;
-output reg hsyncstable;
-output reg vsyncstable;
+input sw0,sw1,sw2,sw3,sw4,sw5,sw6,sw7;
+ reg [9:0]hcount; //800 is 11 0010 0000 
+ reg [9:0]vcount; //525 is 10 0000 1101
+output  [3:0]redstable; //error for these if reg
+output  [3:0]greenstable;
+output  [3:0]bluestable;
+output  hsyncstable;
+output  vsyncstable;
 
 reg hsync;
 reg vsync;
@@ -22,7 +22,7 @@ reg [3:0]red;
 reg [3:0]green;
 reg [3:0]blue;
 
-inital
+initial
   begin
     hcount=0;
     vcount=0;
@@ -32,7 +32,7 @@ inital
     green=4'b0000;
     blue=4'b0000;
   end
-pixelclk viewclk(clk,pixclk)
+pixelclk viewclk(clk,pixclk);
 
 always@(posedge pixclk) //This is for hcount/hsync
   begin
@@ -120,10 +120,11 @@ always@(hcount,vcount)
 
 
 
-  end
-  DFF(red,pixclk,redstable);
-  DFF(green,pixclk,greenstable);
-  DFF(blue,pixclk,bluestable);
-  DFF4bit(hsync,pixclk,hsyncstable);
-  DFF4bit(vsync,pixclk,vsyncstable);
+//  end
+  DFF hsyncflop(hsync,pixclk,hsyncstable);
+  DFF vsyncflop(vsync,pixclk,vsyncstable);
+  DFF4bit redflop(red,pixclk,redstable);
+  DFF4bit greenflop(green,pixclk,greenstable);
+  DFF4bit blueflop(blue,pixclk,bluestable);
+
 endmodule
