@@ -8,4 +8,4 @@ force sw5 1 0
 force sw6 1 0
 force pixel 12'b111100001010
 
-run 400
+run 30000000
