@@ -1,5 +1,5 @@
-module monitor(clk,pixel,redstable,greenstable,bluestable,hsyncstable,vsyncstable); // pixel comes from switches
-input clk;
+module monitor(pixclk,pixel,redstable,greenstable,bluestable,hsyncstable,vsyncstable); // pixel comes from switches
+input pixclk;
 input [11:0]pixel;
 reg [10:0]hcount; //800 is 11 0010 0000
 reg [10:0]vcount; //525 is 10 0000 1101 made it 11 bits to account for negative number
@@ -28,48 +28,48 @@ initial
     green=4'b0000;
     blue=4'b0000;
   end
-pixelclk viewclk(clk,pixclk);
+//pixelclk viewclk(clk,pixclk);
 
 always@(posedge pixclk)
 begin
       hcount = hcount + 1;
       if(hcount >= 800) begin
         vcount = vcount + 1;
-        hcount = 0; 
+        hcount = 0;
       end
-      
-      if(hcount == 659)begin 
+
+      if(hcount == 659)begin
         hsync = 0;
       end
-      
-      else if(hcount == 756)begin 
+
+      else if(hcount == 756)begin
         hsync = 1;
       end
-      
+
       if(hcount>=639)
        begin
          displaycase=0;
        end
-      
-      if(vcount >= 525) 
+
+      if(vcount >= 525)
        begin
          vcount = 0;
        end
-      
-      if(vcount == 493) 
+
+      if(vcount == 493)
        begin
         vsync = 0;
        end
-      
+
       else if(vcount == 495)
        begin
         vsync = 1;
        end
-      
+
      if(vcount>=479)
        begin
         displaycase=0;
-       end 
+       end
 
      if(displaycase==0)
        begin
@@ -82,7 +82,7 @@ begin
          red=pixel[11:8];
          green=pixel[7:4];
          blue=pixel[3:0];
-        end          
+        end
 
     displaycase=1;
 
