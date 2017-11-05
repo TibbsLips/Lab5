@@ -8,35 +8,37 @@ output reg [11:0]pixel;
 output reg [10:0]xcoord;
 output reg [10:0]ycoord;
 
-#reg [10:0]headstartposition;
+#reg [10:0]headposition;
 reg [6:0]length; //in case we want to expand length, make larger 40 is 0101000
 reg [4:0]width;  //10 is 01010
-
+reg [1:0]snakedirection; //00=right, 01=down, 10=left, 11=up
 intitial
 begin
+  snakedirection=2'b00;
   length=7'b0101000;
   width=5'b01010;
-  xcoord=11'b00000101000;
-  ycoord=11'b00011110000;
+  headposition=11'b00000101000; //40 px for the length of the snake
+  xcoord=11'b00000101000; //40 px for the length of the snake
+  ycoord=11'b00011110000; //240 px halfway down screen
 end
 
 always@(posedge pixclk)
 begin
-  if((keycode1==4'b0111)&&(keycode2==4'b0101))//up
+  if((keycode1==4'b0111)&&(keycode2==4'b0101)&&(snakedirection!=2'b01))//up
     begin
-
+      headposition<=headposition+length;
     end
-  if((keycode1==4'b0111)&&(keycode2==4'b0010))//down
+  if((keycode1==4'b0111)&&(keycode2==4'b0010)&&(snakedirection!=2'b11))//down
     begin
-
+      headposition<=headposition+length;
     end
-  if((keycode1==4'b0110)&&(keycode2==4'b1011))//left
+  if((keycode1==4'b0110)&&(keycode2==4'b1011)&&(snakedirection!=2'b00))//left
     begin
-
+      headposition<=headposition+length;
     end
-  if((keycode1==4'b0111)&&(keycode2==4'b0100))//right
+  if((keycode1==4'b0111)&&(keycode2==4'b0100)&&(snakedirection!=2'b10))//right
     begin
-
+      headposition<=headposition+length;
     end
 
 
