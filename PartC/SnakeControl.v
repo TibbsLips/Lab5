@@ -42,16 +42,24 @@ begin
 ///above was to update position, below is to update the coordinates and the pixel
   if(snakedirection==2'b11) //up
     begin
+      ycoord<=ycoord+1;
     end
   if(snakedirection==2'b01) //down
     begin
+      ycoord<=ycoord-1;
     end
   if(snakedirection==2'b10) //left
     begin
+      xcoord<=xcoord-1;
     end
   if(snakedirection==2'b00) //right
     begin
+      xcoord<=xcoord+1;
     end
+////now for pixel color
+  if(xcoord)
+
+
 
 end
 
