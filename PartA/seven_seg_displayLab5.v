@@ -1,5 +1,6 @@
-module seven_seg_displayLab5(clk1k,seg1,seg2,anode,cathodes);
+module seven_seg_displayLab5(clk1k,firstdigit,seg1,seg2,anode,cathodes);
 input clk1k;
+input firstdigit;
 input [3:0]seg1;
 input [3:0]seg2;
 output reg  [3:0]anode;
@@ -32,6 +33,12 @@ initial
   seg_rom[15]=7'b0001110; //F
   end
 always@(posedge clk1k) begin
+    if(firstdigit==0)
+    begin
+        anode<=4'b1111;
+    end
+    else    
+    begin
     case(anode_cycle)
     0:begin
         anode<=4'b1110;
@@ -44,12 +51,13 @@ always@(posedge clk1k) begin
     default:
       begin
         anode<=4'b1111;
-      end  
-    endcase 
+      end
+    endcase
     anode_cycle<=anode_cycle+1;
     if(anode_cycle==2)
         begin
             anode_cycle<=0;
-        end 
-  end    
+        end
+  end
+ end 
 endmodule
