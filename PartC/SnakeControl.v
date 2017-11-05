@@ -55,18 +55,34 @@ begin
   if(snakedirection==2'b11) //up
     begin
       ycoord<=ycoord+1;
+      if(ycoord>=525)      //sync ycoord with vcount
+      begin
+        ycoord<=0;
+      end
     end
   if(snakedirection==2'b01) //down
     begin
       ycoord<=ycoord-1;
+      if(ycoord<=0)
+      begin
+        ycoord<=0;
+      end
     end
   if(snakedirection==2'b10) //left
     begin
       xcoord<=xcoord-1;
+      if(xcoord<=0)
+      begin
+        xcoord<=0;
+      end
     end
   if(snakedirection==2'b00) //right
     begin
       xcoord<=xcoord+1;
+      if(xcoord>=800)
+      begin
+        xcoord<=0;
+      end
     end
 ////now for pixel color
   if((snakedirection==2'b11)&&(ycoord>=0)) //up
