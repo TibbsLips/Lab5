@@ -28,7 +28,6 @@ initial
     green=4'b0000;
     blue=4'b0000;
   end
-//pixelclk viewclk(clk,pixclk);
 
 always@(posedge pixclk)
 begin
