@@ -8,13 +8,13 @@ output reg [11:0]pixel;
 output reg [10:0]xcoord;
 output reg [10:0]ycoord;
 
-#reg [10:0]headposition;
+//reg [10:0]headposition;
 reg [6:0]length; //in case we want to expand length, make larger 40 is 0101000
 reg [6:0]width;  //10 is 01010
 reg [6:0]vertical;
 reg [6:0]horizontal;
 reg [1:0]snakedirection; //00=right, 01=down, 10=left, 11=up
-intitial
+initial
 begin
   snakedirection=2'b00;
   length=7'b0101000;
@@ -27,25 +27,25 @@ end
 
 always@(posedge pixclk)
 begin
-  if((keycode1==4'b0111)&&(keycode2==4'b0101)&&(snakedirection!=2'b01))&&(snakedirection!=2'b11))//up
+  if((keycode1==4'b0111)&&(keycode2==4'b0101)&&(snakedirection!=2'b01)&&(snakedirection!=2'b11))//up
     begin
       snakedirection<=2'b11;                                           //update direction
       vertical<=length;                                                //snake is now long in the vertical direction
       horizontal<=width;                                               //snake is fat in horizontal direction
     end
-  if((keycode1==4'b0111)&&(keycode2==4'b0010)&&(snakedirection!=2'b11))&&(snakedirection!=2'b01))//down
+  if((keycode1==4'b0111)&&(keycode2==4'b0010)&&(snakedirection!=2'b11)&&(snakedirection!=2'b01))//down
     begin
       snakedirection<=2'b01;
       vertical<=length;
       horizontal<=width;
     end
-  if((keycode1==4'b0110)&&(keycode2==4'b1011)&&(snakedirection!=2'b00))&&(snakedirection!=2'b10))//left
+  if((keycode1==4'b0110)&&(keycode2==4'b1011)&&(snakedirection!=2'b00)&&(snakedirection!=2'b10))//left
     begin
-      snakedirection<=2b'10;
+      snakedirection<=2'b10;
       vertical<=width;
       horizontal<=length;
     end
-  if((keycode1==4'b0111)&&(keycode2==4'b0100)&&(snakedirection!=2'b10))&&(snakedirection!=2'b00))//right
+  if((keycode1==4'b0111)&&(keycode2==4'b0100)&&(snakedirection!=2'b10)&&(snakedirection!=2'b00))//right
     begin
       snakedirection<=2'b00;
       vertical<=width;

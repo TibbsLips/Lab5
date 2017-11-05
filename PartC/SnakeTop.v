@@ -11,14 +11,14 @@ wire firstdigit;
 
 output [3:0]redstable;          //things for display
 output [3:0]greenstable;
-output [3:0]blustable;
+output [3:0]bluestable;
 output hsyncstable;
 output vsyncstable;
 wire [11:0]pixel;
 wire pixclk;
 
-wire xcoord;
-wire ycoord;
+wire [10:0]xcoord;
+wire [10:0]ycoord;
 
 pixelclk p(clk,pixclk);
 
@@ -27,3 +27,4 @@ keyboardInput k(clk,ps2clk,ps2data,keycode1,keycode2,strobe,firstdigit);
 snakeControl s(keycode1,keycode2,strobe,pixclk,pixel,xcoord,ycoord);
 
 monitor m(xcoord,ycoord,pixclk,pixel,redstable,greenstable,bluestable,hsyncstable,vsyncstable);
+endmodule
