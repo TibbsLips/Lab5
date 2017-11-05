@@ -25,25 +25,21 @@ always@(posedge pixclk)
 begin
   if((keycode1==4'b0111)&&(keycode2==4'b0101)&&(snakedirection!=2'b01))//up
     begin
-      //ycoord<=ycoord+1;
       snakedirection<=2'b11;
     end
   if((keycode1==4'b0111)&&(keycode2==4'b0010)&&(snakedirection!=2'b11))//down
     begin
-      //ycoord<=ycoord-1;
       snakedirection<=2'b01;
     end
   if((keycode1==4'b0110)&&(keycode2==4'b1011)&&(snakedirection!=2'b00))//left
     begin
-      //xcoord<=xcoord-1;
       snakedirection<=2b'10;
     end
   if((keycode1==4'b0111)&&(keycode2==4'b0100)&&(snakedirection!=2'b10))//right
     begin
-      //xcoord<=xcoord+1;
       snakedirection<=2'b00;
     end
-
+///above was to update position, below is to update the coordinates and the pixel
   if(snakedirection==2'b11) //up
     begin
     end
