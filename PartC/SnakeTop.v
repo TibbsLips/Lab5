@@ -5,8 +5,8 @@ input ps2data;
 output wire [3:0]seg_anode;
 output wire [6:0]seg_cathodes;
 output strobe;
-wire keycode1;
-wire keycode2;
+wire [3:0]keycode1;
+wire [3:0]keycode2;
 wire firstdigit;
 
 output [3:0]redstable;          //things for display
