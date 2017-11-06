@@ -1,25 +1,28 @@
-module snakeControl(keycode1,keycode2,strobe,pixclk,pixel,xcoord,ycoord,snakeheightoffset,snakewidthoffset,blackflag);
+module snakeControl(keycode1,keycode2,strobe,pixclk,pixel,xcoord,ycoord,snakeheightoffset,snakewidthoffset,blackflag,collided);
 input [3:0]keycode1;
 input [3:0]keycode2;
 input strobe;
 input pixclk;
-
 output reg [11:0]pixel;
 output reg [10:0]xcoord;
 output reg [10:0]ycoord;
 output reg [6:0]snakeheightoffset;
 output reg [6:0]snakewidthoffset;
 output reg blackflag;
+output reg collided;
 
-//reg [10:0]headposition;
 reg [6:0]length; //in case we want to expand length, make larger 40 is 0101000
 reg [6:0]width;  //10 is 01010
 reg [6:0]vertical;
 reg [6:0]horizontal;
 reg [1:0]snakedirection; //00=right, 01=down, 10=left, 11=up
 reg [1:0]gamestate; //state for features
+reg collision;
+
 initial
-begin
+begin  
+  collided=0;
+  collision=0;
   blackflag=1;
   gamestate=2'b00;
   snakeheightoffset=7'b0000000;
@@ -46,11 +49,22 @@ if((keycode1==4'b0100)&&(keycode2==4'b1101))
 if((gamestate==2'b10)&&(keycode1==4'b0010)&&(keycode2==4'b1101))
     begin
         gamestate<=2'b01;
-    end        
-    
+    end    
+if((collision==1))//&&(keycode1!=4'b0111)&&(keycode2!=4'b0110))
+    if((keycode1==4'b0111)&&(keycode2==4'b0110))
+    begin
+        collided<=0;
+        gamestate<=2'b00;
+    end
+    else    
+    begin
+        collided<=1;
+        gamestate<=2'b11;
+    end            
 case(gamestate)
 
 0:begin
+    collision<=0;
     blackflag<=1;
     snakedirection<=2'b00;
     snakeheightoffset<=5;
@@ -59,7 +73,8 @@ case(gamestate)
     ycoord=11'b00011110000;
     pixel=12'b000000000000;
   end
-1:begin    
+1:begin 
+  collision<=0;   
   blackflag<=0;
   if((keycode1==4'b0111)&&(keycode2==4'b0101)&&(snakedirection!=2'b01)&&(snakedirection!=2'b11))//up
     begin
@@ -89,33 +104,33 @@ case(gamestate)
   if(snakedirection==2'b11) //up
     begin
       ycoord<=ycoord-1;
-      if(ycoord>=480)      //sync ycoord with vcount
+      if(ycoord<=25)
       begin
-        ycoord<=0;
+       collision<=1;
       end
     end
   if(snakedirection==2'b01) //down
     begin
       ycoord<=ycoord+1;
-      if(ycoord<=0)
+      if(ycoord>=470)
       begin
-        ycoord<=0;
+        collision<=1;
       end
     end
   if(snakedirection==2'b10) //left
     begin
       xcoord<=xcoord-1;
-      if(xcoord<=0)
+      if(xcoord<=25) 
       begin
-        xcoord<=0;
+        collision<=1;
       end
     end
   if(snakedirection==2'b00) //right
     begin
       xcoord<=xcoord+1;
-      if(xcoord>=640)
+      if(xcoord>=630) //was 640
       begin
-        xcoord<=0;
+       collision<=1;
       end
     end
 ////now for pixel color
@@ -141,6 +156,7 @@ case(gamestate)
     end
 end
 2:begin
+    collision<=0;
     blackflag<=0;
     snakedirection=snakedirection;
     snakeheightoffset<=snakeheightoffset;
@@ -150,6 +166,7 @@ end
     pixel<=pixel;
   end
 3:begin
+    collision<=1;
     blackflag<=0;
     snakedirection=snakedirection;
     snakeheightoffset<=snakeheightoffset;

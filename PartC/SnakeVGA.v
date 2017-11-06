@@ -1,4 +1,4 @@
-module monitor(blackflag,snakeheightoffset,snakewidthoffset,xcoord,ycoord,pixclk,pixel,redstable,greenstable,bluestable,hsyncstable,vsyncstable); // pixel comes from switches
+module monitor(collided,blackflag,snakeheightoffset,snakewidthoffset,xcoord,ycoord,pixclk,pixel,redstable,greenstable,bluestable,hsyncstable,vsyncstable); // pixel comes from switches
 input [6:0]snakeheightoffset;
 input [6:0]snakewidthoffset;
 input pixclk;
@@ -6,6 +6,7 @@ input [11:0]pixel;
 input [10:0]xcoord;
 input [10:0]ycoord;
 input blackflag;
+input collided;
 reg [10:0]hcount; //800 is 11 0010 0000
 reg [10:0]vcount; //525 is 10 0000 1101 made it 11 bits to account for negative number
 
@@ -86,10 +87,17 @@ begin
      else
         begin
            if(((hcount>=xcoord-snakewidthoffset)&&(hcount<=xcoord+snakewidthoffset))&&((vcount>=ycoord-snakeheightoffset)&&(vcount<=ycoord+snakeheightoffset)))
+                if(collided==0)
                 begin
-                red=pixel[11:8];
-                green=pixel[7:4];
-                blue=pixel[3:0];
+                     red=pixel[11:8];
+                     green=pixel[7:4];
+                     blue=pixel[3:0];
+                end
+                else
+                begin
+                       red=4'b0000;
+                       green=4'b1111;
+                       blue=4'b0000;
                 end
              else if(blackflag==1)
                 begin
@@ -97,7 +105,13 @@ begin
                     green=4'b0000; 
                     blue=4'b0000;
                 end    
-              else
+             else if(collided==1)
+                begin
+                    red=4'b1111;
+                    green=4'b0000;
+                    blue=4'b0000;
+                end
+             else 
                 begin
                    red=4'b1111;
                    green=4'b1111;

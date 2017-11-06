@@ -1,4 +1,5 @@
-module top(clk,ps2clk,ps2data,redstable,greenstable,bluestable,hsyncstable,vsyncstable,seg_anode,seg_cathodes,strobe);
+module top(sw0,clk,ps2clk,ps2data,redstable,greenstable,bluestable,hsyncstable,vsyncstable,seg_anode,seg_cathodes,strobe);
+input sw0;
 input clk;
 input ps2clk;                   //things from keyboard
 input ps2data;
@@ -19,7 +20,7 @@ wire pixclk;
 wire blackflag;
 wire [10:0]xcoord;
 wire [10:0]ycoord;
-
+wire collided;
 wire [6:0]snakeheightoffset;
 wire [6:0]snakewidthoffset;
 
@@ -30,7 +31,7 @@ keyboardInput k(clk,ps2clk,ps2data,keycode1,keycode2,strobe,firstdigit);
 
 seven_seg_displayLab5 seven(clk1k,firstdigit,keycode1,keycode2,seg_anode,seg_cathodes);
 
-snakeControl s(keycode1,keycode2,strobe,clk1k,pixel,xcoord,ycoord,snakeheightoffset,snakewidthoffset,blackflag);
+snakeControl s(keycode1,keycode2,strobe,clk1k,pixel,xcoord,ycoord,snakeheightoffset,snakewidthoffset,blackflag,collided);
 
-monitor m(blackflag,snakeheightoffset,snakewidthoffset,xcoord,ycoord,pixclk,pixel,redstable,greenstable,bluestable,hsyncstable,vsyncstable);
+monitor m(collided,blackflag,snakeheightoffset,snakewidthoffset,xcoord,ycoord,pixclk,pixel,redstable,greenstable,bluestable,hsyncstable,vsyncstable);
 endmodule
