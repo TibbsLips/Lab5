@@ -23,8 +23,8 @@ reg displaycase;
 initial
   begin
     displaycase=0; //display case is the generated signal to see if pixel is in visible region
-    hcount=xcoord; //was 0
-    vcount=ycoord; //was 0
+    hcount=0; //was 0
+    vcount=0; //was 0
     hsync =1;
     vsync =1;
     red=4'b0000;
@@ -81,9 +81,18 @@ begin
        end
      else
         begin
-         red=pixel[11:8];
-         green=pixel[7:4];
-         blue=pixel[3:0];
+            if(hcount==xcoord||vcount==ycoord)
+                begin
+                red=pixel[11:8];
+                green=pixel[7:4];
+                blue=pixel[3:0];
+                end
+             else
+                begin
+                   red=4'b1111;
+                   green=4'b1111;
+                   blue=4'b1111;
+                end   
         end
 
     displaycase=1;
