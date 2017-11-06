@@ -16,9 +16,12 @@ output hsyncstable;
 output vsyncstable;
 wire [11:0]pixel;
 wire pixclk;
-
+wire blackflag;
 wire [10:0]xcoord;
 wire [10:0]ycoord;
+
+wire [6:0]snakeheightoffset;
+wire [6:0]snakewidthoffset;
 
 pixelclk p(clk,pixclk);
 kclk seven_seg_clk(clk,clk1k);
@@ -27,7 +30,7 @@ keyboardInput k(clk,ps2clk,ps2data,keycode1,keycode2,strobe,firstdigit);
 
 seven_seg_displayLab5 seven(clk1k,firstdigit,keycode1,keycode2,seg_anode,seg_cathodes);
 
-snakeControl s(keycode1,keycode2,strobe,clk1k,pixel,xcoord,ycoord);
+snakeControl s(keycode1,keycode2,strobe,clk1k,pixel,xcoord,ycoord,snakeheightoffset,snakewidthoffset,blackflag);
 
-monitor m(xcoord,ycoord,pixclk,pixel,redstable,greenstable,bluestable,hsyncstable,vsyncstable);
+monitor m(blackflag,snakeheightoffset,snakewidthoffset,xcoord,ycoord,pixclk,pixel,redstable,greenstable,bluestable,hsyncstable,vsyncstable);
 endmodule

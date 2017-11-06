@@ -1,8 +1,11 @@
-module monitor(xcoord,ycoord,pixclk,pixel,redstable,greenstable,bluestable,hsyncstable,vsyncstable); // pixel comes from switches
+module monitor(blackflag,snakeheightoffset,snakewidthoffset,xcoord,ycoord,pixclk,pixel,redstable,greenstable,bluestable,hsyncstable,vsyncstable); // pixel comes from switches
+input [6:0]snakeheightoffset;
+input [6:0]snakewidthoffset;
 input pixclk;
 input [11:0]pixel;
 input [10:0]xcoord;
 input [10:0]ycoord;
+input blackflag;
 reg [10:0]hcount; //800 is 11 0010 0000
 reg [10:0]vcount; //525 is 10 0000 1101 made it 11 bits to account for negative number
 
@@ -20,6 +23,7 @@ reg [3:0]red;
 reg [3:0]green;
 reg [3:0]blue;
 reg displaycase;
+
 initial
   begin
     displaycase=0; //display case is the generated signal to see if pixel is in visible region
@@ -81,13 +85,19 @@ begin
        end
      else
         begin
-            if(((hcount>=xcoord-40)&&(hcount<=xcoord+40))&&((vcount>=ycoord-40)&&(vcount<=ycoord+40)))
+           if(((hcount>=xcoord-snakewidthoffset)&&(hcount<=xcoord+snakewidthoffset))&&((vcount>=ycoord-snakeheightoffset)&&(vcount<=ycoord+snakeheightoffset)))
                 begin
                 red=pixel[11:8];
                 green=pixel[7:4];
                 blue=pixel[3:0];
                 end
-             else
+             else if(blackflag==1)
+                begin
+                    red=4'b0000;
+                    green=4'b0000; 
+                    blue=4'b0000;
+                end    
+              else
                 begin
                    red=4'b1111;
                    green=4'b1111;
