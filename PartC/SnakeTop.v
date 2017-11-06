@@ -27,7 +27,7 @@ keyboardInput k(clk,ps2clk,ps2data,keycode1,keycode2,strobe,firstdigit);
 
 seven_seg_displayLab5 seven(clk1k,firstdigit,keycode1,keycode2,seg_anode,seg_cathodes);
 
-snakeControl s(keycode1,keycode2,strobe,pixclk,pixel,xcoord,ycoord);
+snakeControl s(keycode1,keycode2,strobe,clk1k,pixel,xcoord,ycoord);
 
 monitor m(xcoord,ycoord,pixclk,pixel,redstable,greenstable,bluestable,hsyncstable,vsyncstable);
 endmodule

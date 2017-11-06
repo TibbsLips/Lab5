@@ -81,7 +81,7 @@ begin
        end
      else
         begin
-            if(hcount==xcoord||vcount==ycoord)
+            if(((hcount>=xcoord-40)&&(hcount<=xcoord+40))&&((vcount>=ycoord-40)&&(vcount<=ycoord+40)))
                 begin
                 red=pixel[11:8];
                 green=pixel[7:4];

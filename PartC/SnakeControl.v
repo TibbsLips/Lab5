@@ -55,7 +55,7 @@ begin
   if(snakedirection==2'b11) //up
     begin
       ycoord<=ycoord+1;
-      if(ycoord>=525)      //sync ycoord with vcount
+      if(ycoord>=480)      //sync ycoord with vcount
       begin
         ycoord<=0;
       end
@@ -79,7 +79,7 @@ begin
   if(snakedirection==2'b00) //right
     begin
       xcoord<=xcoord+1;
-      if(xcoord>=800)
+      if(xcoord>=640)
       begin
         xcoord<=0;
       end
