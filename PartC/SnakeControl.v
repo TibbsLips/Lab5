@@ -17,15 +17,14 @@ reg [6:0]width;  //10 is 01010
 reg [6:0]vertical;
 reg [6:0]horizontal;
 reg [1:0]snakedirection; //00=right, 01=down, 10=left, 11=up
-reg gamestate; //state for features
+reg [1:0]gamestate; //state for features
 initial
 begin
   blackflag=1;
-  gamestate=0;
+  gamestate=2'b00;
   snakeheightoffset=7'b0000000;
   snakewidthoffset= 7'b0000000;
   snakedirection=2'b00;
- // xcoord=11'b00000101000; //40 px for the length of the snake
   xcoord=11'b00000000000;
   ycoord=11'b00011110000; //240 px halfway down screen
 end
@@ -34,18 +33,26 @@ always@(posedge pixclk)
 begin
 if((keycode1==4'b0001)&&(keycode2==4'b1011))
     begin
-       gamestate<=1;
+       gamestate<=2'b01;
     end
 if((keycode1==4'b0111)&&(keycode2==4'b0110))
     begin
-       gamestate<=0;
+       gamestate<=2'b00;
     end
-
-
+if((keycode1==4'b0100)&&(keycode2==4'b1101))
+    begin
+       gamestate<=2'b10;
+    end    
+if((gamestate==2'b10)&&(keycode1==4'b0010)&&(keycode2==4'b1101))
+    begin
+        gamestate<=2'b01;
+    end        
+    
 case(gamestate)
 
 0:begin
     blackflag<=1;
+    snakedirection<=2'b00;
     snakeheightoffset<=5;
     snakewidthoffset<=20;
     xcoord=11'b00000000000;
@@ -133,6 +140,24 @@ case(gamestate)
         pixel<=12'b111111111111;          //white
     end
 end
+2:begin
+    blackflag<=0;
+    snakedirection=snakedirection;
+    snakeheightoffset<=snakeheightoffset;
+    snakewidthoffset<=snakewidthoffset;
+    xcoord<=xcoord;
+    ycoord<=ycoord;
+    pixel<=pixel;
+  end
+3:begin
+    blackflag<=0;
+    snakedirection=snakedirection;
+    snakeheightoffset<=snakeheightoffset;
+    snakewidthoffset<=snakewidthoffset;
+    xcoord<=xcoord;
+    ycoord<=ycoord;
+    pixel<=pixel;
+  end  
 
 endcase
 
