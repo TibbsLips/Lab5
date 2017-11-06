@@ -21,7 +21,7 @@ end
 
 always@(negedge ps2clk)
 begin
-    shiftregister={ps2data,shiftregister[21:1]};
+    shiftregister={ps2data,shiftregister[21:1]}; //shift here
 
     if(shiftregister[8:1]==8'b11110000)
       begin
