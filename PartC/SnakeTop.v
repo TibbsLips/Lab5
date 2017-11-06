@@ -1,10 +1,10 @@
-module top(clk,ps2clk,ps2data,redstable,greenstable,bluestable,hsyncstable,vsyncstable,seg_anode,seg_cathode);
+module top(clk,ps2clk,ps2data,redstable,greenstable,bluestable,hsyncstable,vsyncstable,seg_anode,seg_cathodes,strobe);
 input clk;
 input ps2clk;                   //things from keyboard
 input ps2data;
 output wire [3:0]seg_anode;
-output wire [3:0]seg_cathode;
-wire strobe;
+output wire [3:0]seg_cathodes;
+output wire strobe;
 wire keycode1;
 wire keycode2;
 wire firstdigit;
