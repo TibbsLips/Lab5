@@ -3,7 +3,7 @@ input clk;
 input ps2clk;                   //things from keyboard
 input ps2data;
 output wire [3:0]seg_anode;
-output wire [3:0]seg_cathodes;
+output wire [6:0]seg_cathodes;
 output wire strobe;
 wire keycode1;
 wire keycode2;
